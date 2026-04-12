@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name         WTF Flight Club
 // @namespace    https://github.com/Silverdark/TornScripts
-// @version      2025-10-19.1
+// @version      2026-04-12.1
 // @description  Flight Club Helper tools
 // @author       Silverdark [3503183], neth [3564828]
-// @icon         https://travel.wtf-torn.app/assets/img/wtf-flight.png
+// @icon         https://flightclub.what-the-f.de/assets/img/wtf-flight.png
 // @match        https://www.torn.com/item.php
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue
-// @connect      travel.wtf-torn.app
+// @connect      flightclub.what-the-f.de
 // ==/UserScript==
 
 (async function() {
@@ -46,7 +46,7 @@
         "261", // Wolverine
     ];
 
-    const travelWebsiteUrl = "https://travel.wtf-torn.app/";
+    const travelWebsiteUrl = "https://flightclub.what-the-f.de/";
     const dataKey_flightClub = "flightClubData";
     const dataKey_publicApiKey = "publicApiKey";
     const event_FlightClubDataChanged = 'flight-club-data-changed';
