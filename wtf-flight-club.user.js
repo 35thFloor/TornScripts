@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WTF Flight Club
 // @namespace    https://github.com/Silverdark/TornScripts
-// @version      2026-05-04.1
+// @version      2026-05-25.1
 // @description  Flight Club Helper tools
 // @author       Silverdark [3503183], neth [3564828]
 // @icon         https://flightclub.what-the-f.de/assets/img/wtf-flight.png
@@ -99,8 +99,8 @@
     // Helper functions
 
     function init() {
-        initFlightClubData();
-        initFlightClubItemRowChange();
+        initFlightClubData().catch(err => console.error('[WTF Flight Club]', err));
+        initFlightClubItemRowChange().catch(err => console.error('[WTF Flight Club]', err));
     }
 
     async function initFlightClubItemRowChange() {
@@ -124,7 +124,7 @@
 
     async function getFlightClubItemRows() {
         const categoryWrapper = await waitForElm(document.body, "#category-wrap");
-        const nodes = document.querySelectorAll("#category-wrap li");
+        const nodes = categoryWrapper.querySelectorAll("li");
         return Array.from(nodes).filter(x => isItemRowNode(x));
     }
 
@@ -212,7 +212,14 @@
 
     async function getRemainingItemsByTornItemId() {
         const response = await gmFetch(`${travelWebsiteUrl}api/items/remaining`, 'GET');
-        return JSON.parse(response.responseText);
+        if (response.status !== 200) {
+            throw new Error(`Flight Club API returned status ${response.status}`);
+        }
+        try {
+            return JSON.parse(response.responseText);
+        } catch (e) {
+            throw new Error('Flight Club API returned non-JSON response');
+        }
     }
 
     function updateStatusFlightClubItemRow(itemRow) {
@@ -268,7 +275,7 @@
                 }
             });
 
-            observer.observe(document.body, {
+            observer.observe(parent, {
                 childList: true,
                 subtree: true
             });
